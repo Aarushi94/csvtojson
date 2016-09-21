@@ -28,36 +28,43 @@ r1.on('line',function(line){
 
         if(countries.indexOf(country)<0){
          countries.push(country);
-         tempObject["Country-Name"]=country;
-         tempObject["Total-Value"]=0.0;
+         tempObject["countryName"]=country;
+         tempObject["totalValue"]=0.0;
+         tempObject["totalYears"]=0;
          jsonArray.push(tempObject);
         }
 
-        if(indicatorCode == "SP.DYN.LE00.IN"){
+        if(indicatorCode == "SP.DYN.LE00.IN" && indicatorValue>0){
           for(var i= 0; i<jsonArray.length ;i++) {
-            if(jsonArray[i]["Country-Name"] == country) {
-              jsonArray[i]["Total-Value"] = parseFloat( jsonArray[i]["Total-Value"]) + parseFloat(indicatorValue);
+            if(jsonArray[i]["countryName"] == country) {
+              jsonArray[i]["totalValue"] = parseFloat( jsonArray[i]["totalValue"]) + parseFloat(indicatorValue);
+              jsonArray[i]["totalYears"]=  parseInt(jsonArray[i]["totalYears"])+1;
+
             }
           }
         }
-
-        //sort the jsonArray accoring to total value
-        jsonArray.sort(function(a,b){
-			    return b["Total-Value"]- a["Total-Value"];
-		    });
-
-        //get top 5 countries
-        for (var i = 0; i < 5; i++) {
-          finalArray[i]=jsonArray[i];
-        }
-
     }
   }
 });
 
-//write to top.json file
+//on close event
 r1.on('close',function(){
-fs.writeFile("top.json",JSON.stringify(finalArray),function(err){
+
+  for (var i = 0; i < jsonArray.length; i++) {
+    jsonArray[i]["totalValue"] =parseFloat( jsonArray[i]["totalValue"])/jsonArray[i]["totalYears"];
+  }
+  //sort the jsonArray accoring to total value
+  jsonArray.sort(function(a,b){
+    return b["totalValue"]- a["totalValue"];
+  });
+
+  //get top 5 countries
+  for (var i = 0; i < 5; i++) {
+    finalArray[i]=jsonArray[i];
+  }
+
+//write to topCountriesLifeExpectancy.json file
+  fs.writeFile("topCountriesLifeExpectancy.json",JSON.stringify(finalArray),function(err){
   if(err) {
       console.log(err);
     }else{
