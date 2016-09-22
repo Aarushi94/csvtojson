@@ -11,8 +11,8 @@ const r1=readline.createInterface({
 var isHeader=true;
 var countries=[];
 var jsonArray=[];
-var numOfYears=[];
-var cnt=0;
+
+
 var asian=["Arab World","Afghanistan","Armenia","Azerbaijan","Bahrain","Bangladesh","Bhutan","Brunei Darussalam","Cambodia","China","Cyprus","\"Egypt Arab Rep.\"","India","Indonesia","\"Iran Islamic Rep.\"","Iraq","Israel","Japan","Jordan","Kazakhstan","\"Korea Dem. Rep.\"","\"Korea Rep.\"",
 "Kuwait","Kyrgyz Republic",
 "Lao PDR","Lebanon","Malaysia","Maldives","Mongolia","Myanmar","Nepal","Oman","Pakistan","Philippines","Qatar","Saudi Arabia","Singapore","Sri Lanka","Syrian Arab Republic","Tajikistan","Thailand","Timor-Leste","Turkmenistan","United Arab Emirates","Uzbekistan","Vietnam","\"Yemen Rep.\""];
@@ -50,7 +50,7 @@ r1.on('line',function(line){
             if(jsonArray[i]["countryName"] == country) {
               if(indicatorCode == "SP.DYN.LE00.FE.IN" && indicatorValue>0){
                   jsonArray[i]["female"]= parseFloat( jsonArray[i]["female"]) + parseFloat(indicatorValue);
-                    jsonArray[i]["countF"]=  parseInt(jsonArray[i]["countF"])+1;
+                  jsonArray[i]["countF"]=  parseInt(jsonArray[i]["countF"])+1;
               }
               else if(indicatorCode == "SP.DYN.LE00.MA.IN" && indicatorValue>0){
                 jsonArray[i]["male"]= parseFloat( jsonArray[i]["male"]) + parseFloat(indicatorValue);
@@ -74,7 +74,7 @@ r1.on('close',function(){
   //Calculate the average life expectancy of males and females
   for (var i = 0; i < jsonArray.length; i++) {
     jsonArray[i]["female"] =parseFloat( jsonArray[i]["female"])/jsonArray[i]["countF"];
-      jsonArray[i]["male"] =parseFloat( jsonArray[i]["male"])/jsonArray[i]["countM"];
+    jsonArray[i]["male"] =parseFloat( jsonArray[i]["male"])/jsonArray[i]["countM"];
   }
   //write to asianCountriesLifeExpectancy.json file
  fs.writeFile("asianCountriesLifeExpectancy.json",JSON.stringify(jsonArray),function(err){
