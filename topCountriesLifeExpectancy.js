@@ -10,11 +10,16 @@ const r1=readline.createInterface({
 
 var isHeader=true;
 var countries=[];
+var headers=[];
 var jsonArray=[];
 var finalArray=[];
 r1.on('line',function(line){
   if(isHeader){
     isHeader=false;
+    line=line.split(',');
+    headers[0]=line.indexOf("CountryName");
+    headers[1]=line.indexOf("IndicatorCode");
+    headers[2]=line.indexOf("Value");
   }
   else{
     var commaRemoved = line.replace(/"[^"]+"/g, function (match) {return match.replace(/,/g, '');});
@@ -22,9 +27,10 @@ r1.on('line',function(line){
     var tempObject={};
 
     if(temp.length==6){
-      var country=temp[0];
-      var indicatorValue=temp[5];
-      var indicatorCode=temp[3];
+        //ToDo: Remove indexes so that in future if columns change the index will not create an issue
+      var country=temp[headers[0]];
+      var indicatorCode=temp[headers[1]];
+      var indicatorValue=temp[headers[2]];
 
         if(countries.indexOf(country)<0){
          countries.push(country);

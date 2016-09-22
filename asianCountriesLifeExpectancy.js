@@ -11,7 +11,7 @@ const r1=readline.createInterface({
 var isHeader=true;
 var countries=[];
 var jsonArray=[];
-
+var headers=[];
 
 var asian=["Arab World","Afghanistan","Armenia","Azerbaijan","Bahrain","Bangladesh","Bhutan","Brunei Darussalam","Cambodia","China","Cyprus","\"Egypt Arab Rep.\"","India","Indonesia","\"Iran Islamic Rep.\"","Iraq","Israel","Japan","Jordan","Kazakhstan","\"Korea Dem. Rep.\"","\"Korea Rep.\"",
 "Kuwait","Kyrgyz Republic",
@@ -20,6 +20,12 @@ var asian=["Arab World","Afghanistan","Armenia","Azerbaijan","Bahrain","Banglade
 r1.on('line',function(line){
   if(isHeader){
     isHeader=false;
+    line=line.split(',');
+    headers[0]=line.indexOf("CountryName");
+    headers[1]=line.indexOf("Year");
+    headers[2]=line.indexOf("IndicatorCode");
+    headers[3]=line.indexOf("Value");
+
   }
   else{
     var commaRemoved = line.replace(/"[^"]+"/g, function (match) {return match.replace(/,/g, '');});
@@ -27,10 +33,11 @@ r1.on('line',function(line){
 
     //check length
     if(temp.length==6){
-      var country=temp[0];
-      var year=temp[4];
-      var indicatorValue=temp[5];
-      var indicatorCode=temp[3];
+      //ToDo: Remove indexes so that in future if columns change the index will not create an issue
+      var country=temp[headers[0]];
+      var year=temp[headers[1]];
+      var indicatorValue=temp[headers[3]];
+      var indicatorCode=temp[headers[2]];
       var tempObject={}; //temporary object
 
       if(asian.indexOf(country)>=0){
