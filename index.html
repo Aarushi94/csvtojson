@@ -1,9 +1,44 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="stackedChart.js"></script>
+  <link rel="stylesheet"src="graph.css">
 </head>
 <body>
 
-<p> GIT Repo push pull practice</p>
+<div class="container">
+  <h2>Life Expectancy  at birth of Countries</h2>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#menu1">Top Countries</a></li>
+    <li><a data-toggle="tab" href="#menu2">Asian Countries</a></li> </ul>
+
+  <div class="tab-content">
+
+    <div id="menu1" class="tab-pane fade in active">
+      <div id="barG">
+      <script>
+      createBarGraph();
+      </script>
+    </div>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <div id="stackG">
+      <script>
+      createStackedChart();
+      </script>
+    </div>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>
-
